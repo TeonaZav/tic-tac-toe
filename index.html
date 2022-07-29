@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Tic Tac Toe</title>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="menu.css" />
+    <link rel="stylesheet" href="board.css" />
+  </head>
+  <body>
+    <!-- <header class="header"></header> -->
+
+    <div class="game-container">
+      <!-- New game menu start -->
+      <div class="game-menu">
+        <div class="game-menu-header">
+          <img src="assets/icon-x.svg" alt="icon x" class="icon" />
+          <img src="assets/icon-o.svg" alt="icon o" class="icon" />
+        </div>
+        <div class="marks">
+          <h1 class="menu-heading">Pick player 1's mark</h1>
+          <div class="choices x">
+            <div id="choice-x" class="choices__choice x">
+              <img
+                src="assets/icon-x-before.svg"
+                alt=""
+                class="icon icon-choice-x icon-x-before"
+              />
+              <img
+                src="assets/icon-x-after.svg"
+                alt=""
+                class="icon icon-choice-x icon-x-after"
+              />
+            </div>
+            <div id="choice-o" class="choices__choice o">
+              <img
+                src="assets/icon-o-before.svg"
+                alt=""
+                class="icon icon-choice-o icon-o-before"
+              />
+              <img
+                src="assets/icon-o-after.svg"
+                alt=""
+                class="icon icon-choice-o icon-o-after"
+              />
+            </div>
+          </div>
+
+          <label class="menu-label" for="">Remember: X goes first</label>
+        </div>
+        <div class="game-menu__cta">
+          <a>
+            <button
+              id="against-cpu"
+              class="btn btn-new-game btn-large btn-yellow"
+            >
+              New Game (vs CPU)
+            </button>
+          </a>
+          <a
+            ><button
+              id="against-player"
+              value="1"
+              class="btn btn-large btn-turquoise"
+            >
+              New Game (vs player)
+            </button></a
+          >
+        </div>
+      </div>
+      <!-- New game menu end -->
+      <!-- Game board start -->
+      <div class="game-board-container hidden">
+        <div class="board-header">
+          <div class="header-icon-container">
+            <img src="assets/icon-x.svg" alt="icon x" class="icon" />
+            <img src="assets/icon-o.svg" alt="icon o" class="icon" />
+          </div>
+          <div class="display turn-display">turn X</div>
+          <button class="btn restart-btn">
+            <ion-icon name="refresh"></ion-icon>
+          </button>
+        </div>
+        <div class="game-board">
+          <button
+            type="button"
+            id="1"
+            class="board-cell r1cell1 empty"
+            data-value="1"
+          ></button>
+          <button
+            type="button"
+            id="2"
+            class="board-cell r1cell2 empty"
+            data-value="2"
+          ></button>
+          <button
+            type="button"
+            id="3"
+            class="board-cell r1cell3 empty"
+            data-value="3"
+          ></button>
+          <button
+            type="button"
+            id="4"
+            class="board-cell r2cell1 empty"
+            data-value="4"
+          ></button>
+          <button
+            type="button"
+            id="5"
+            class="board-cell r2cell2 empty"
+            data-value="5"
+          ></button>
+          <button
+            type="button"
+            id="6"
+            class="board-cell r2cell3 empty"
+            data-value="6"
+          ></button>
+          <button
+            type="button"
+            id="7"
+            class="board-cell r3cell1 empty"
+            data-value="7"
+          ></button>
+          <button
+            type="button"
+            id="8"
+            class="board-cell r3cell2 empty"
+            data-value="8"
+          ></button>
+          <button
+            type="button"
+            id="9"
+            class="board-cell r3cell3 empty"
+            data-value="9"
+          ></button>
+        </div>
+        <div class="scores">
+          <div class="display score you">
+            <span class="you-top"> you</span>
+            <span class="t-score t-score-you">0</span>
+          </div>
+          <div class="display score ties">
+            <span class="ties-top">ties</span>
+            <span class="t-score t-score-ties">0</span>
+          </div>
+          <div class="display score cpu">
+            <span class="cpu-top">cpu</span>
+            <span class="t-score t-score-cpu">0</span>
+          </div>
+        </div>
+        <div class="modal hidden">
+          <button class="btn--close-modal">&times;</button>
+          <h3 class="modal-messages">Oh no, you lost</h3>
+          <h2 class="modal-heading">takes the round</h2>
+          <div class="modal-cta">
+            <a>
+              <button class="btn btn-modal btn-silver quit">quit</button>
+              <button class="btn btn-modal btn-silver cancel">
+                NO, CANCEL
+              </button>
+            </a>
+            <a
+              ><button class="btn btn-modal btn-yellow next">
+                next round
+              </button></a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Game board end -->
+    </div>
+
+    <div class="overlay hidden"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

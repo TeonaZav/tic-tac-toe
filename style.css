@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&display=swap");
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+body {
+  font-family: "Outfit", sans-serif;
+  width: 100vw;
+  height: 100%;
+  background-color: #1a2a33;
+  scroll-behavior: smooth;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow-x: hidden !important;
+  position: relative;
+}
+.game-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn {
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  border: none;
+  text-decoration: none;
+}
+.btn:active,
+.btn:visited {
+  text-decoration: none;
+}
+.btn-large {
+  width: 32.7rem;
+  height: 5.6rem;
+  border-radius: 1.5rem;
+  color: #1a2a33;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  letter-spacing: 0.1rem;
+}
+.btn-yellow {
+  background-color: #f2b137;
+  box-shadow: inset 0px -9px 0px #cc8b13;
+}
+.btn-yellow:hover {
+  background-color: #ffc860;
+  transition: all 0.3s;
+}
+
+.btn-yellow:active {
+  transform: translateY(6px);
+  box-shadow: inset 0px -6px 0px #cc8b13;
+}
+.btn-turquoise {
+  background-color: #31c3bd;
+  box-shadow: inset 0px -9px 0px #118c87;
+  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+}
+.btn-turquoise:hover {
+  background-color: #65e9e4;
+}
+.btn-turquoise:active {
+  transform: translateY(6px);
+  box-shadow: inset 0px -6px 0px #118c87;
+}
+.display {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: none;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  transition: all 0.5s;
+}
+.hidden {
+  visibility: hidden;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  opacity: 0;
+}
+
+/* more than 768PX (for tablet )*/
+@media (min-width: 48em) {
+  .btn-large {
+    width: 46rem;
+    height: 6.7rem;
+    font-size: 2rem;
+    line-height: 2.5rem;
+    letter-spacing: 0.13rem;
+  }
+}
