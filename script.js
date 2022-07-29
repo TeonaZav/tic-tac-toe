@@ -28,6 +28,7 @@ const boxTurn = document.querySelector(".turn-display");
 const next = document.querySelector(".next");
 const quit = document.querySelector(".quit");
 const cancel = document.querySelector(".cancel");
+const cells = document.querySelectorAll(".board-cell");
 let scores,
   totalScoreYou,
   totalScoreOponent,
@@ -42,12 +43,15 @@ let scores,
   counterOponent,
   whoseTurn,
   winnerCounter;
+let cellsValueArray;
+let currentScorePlayerO;
+let currentScorePlayerX;
 let player;
 let origBoard;
-let activePlayer = "o";
-let cpuPlayer = "x";
-let player1 = "x";
-let player2 = "o";
+let activePlayer;
+let cpuPlayer;
+let player1;
+let player2;
 const rangeArray = [
   [c1, c2, c3],
   [c4, c5, c6],
@@ -59,16 +63,11 @@ const rangeArray = [
   [c3, c5, c7],
 ];
 let arrCpuRandom1, arrCpuRandom2;
-
 //***************************************************************//
 
-const cells = document.querySelectorAll(".board-cell");
-let cellsValueArray;
-let currentScorePlayerO;
-let currentScorePlayerX;
-choiceX.addEventListener("click", playerX);
-choiceO.addEventListener("click", playerO);
 function init() {
+  choiceX.addEventListener("click", playerX);
+  choiceO.addEventListener("click", playerO);
   playing = false;
   game1 = false;
   game2 = false;
@@ -79,9 +78,15 @@ function init() {
   totalScoreYou = 0;
   totalScoreOponent = 0;
   totalScoreTies = 0;
+  activePlayer = "o";
+  cpuPlayer = "x";
+  player1 = "x";
+  player2 = "o";
+  btnNewGameCPU.addEventListener("click", openNewGameCpu);
+  btnNewGamePlayer.addEventListener("click", openNewGamePlayer);
 }
 init();
-
+//************************************************************************//
 function playerX() {
   whoseTurn = 0;
   boxYou.style.backgroundColor = "#31c3bd";
@@ -99,7 +104,7 @@ function playerX() {
   iconAfterX.style.opacity = 0;
   boxTurn.textContent = `X TURN`;
 }
-//************************************************************************//
+
 function playerO() {
   whoseTurn = 1;
   activePlayer = "o";
@@ -119,17 +124,70 @@ function playerO() {
   boxTurn.textContent = `X TURN`;
 }
 //************************************************************************//
-btnNewGameCPU.addEventListener("click", openNewGameCpu);
-btnNewGamePlayer.addEventListener("click", openNewGamePlayer);
-//************************************************************************//
-function openNewGamePlayer() {
-  cancelChanges();
+//***************************************************************//
 
+function openNewGameCpu(e) {
+  e.preventDefault();
+  game1 = true;
+  boxTurn.textContent = `X TURN`;
+  if (activePlayer === "x") {
+    document.querySelector(".you-top").textContent = "X (YOU)";
+    document.querySelector(".cpu-top").textContent = "O (CPU)";
+  } else {
+    document.querySelector(".you-top").textContent = "O (YOU)";
+    document.querySelector(".cpu-top").textContent = "X (CPU)";
+  }
+  //* 1 */
+
+  if (!menu.classList.contains("hidden")) {
+    menu.classList.add("hidden");
+  }
+  if (activeGame.classList.contains("hidden")) {
+    activeGame.classList.remove("hidden");
+  }
+  counterPlayer = 0;
+  counterOponent = 0;
+  winnerCounter = 0;
+  removeActive();
+  removeWinner();
+  if (!choices.classList.contains(`${activePlayer}`)) {
+    choices.classList.add(`${activePlayer}`);
+  }
+  closeModal();
+  playing = true;
+  //* 2 */
+  if (playing) {
+    cellsValueArray = makeArray(cells);
+    arrCpuRandom1 = [1, 3, 7, 9];
+    arrCpuRandom2 = [2, 4, 5, 6];
+
+    if (whoseTurn === 1) {
+      cells.forEach((cell) => {
+        cell.disabled = true;
+      });
+      setTimeout(moveCpu, 2000);
+    } else if (whoseTurn === 0) {
+      cellsValueArray.forEach((el) => {
+        if (!document.getElementById(`${el}`).classList.contains("active")) {
+          document.getElementById(`${el}`).disabled = false;
+        }
+      });
+      cells.forEach((cell) => {
+        cell.addEventListener("mouseover", mOverCell);
+        cell.addEventListener("mouseout", mOutCell);
+        cell.addEventListener("click", mClickCell);
+      });
+    }
+    console.log(cellsValueArray);
+  }
+}
+//***************************************************************//
+function openNewGamePlayer() {
   cells.forEach((cell) => {
     cell.disabled = false;
   });
-  boxTurn.textContent = `X TURN`;
   game2 = true;
+  boxTurn.textContent = `X TURN`;
 
   if (player1 === "x") {
     document.querySelector(".you-top").textContent = "x (p1)";
@@ -156,149 +214,51 @@ function openNewGamePlayer() {
   if (player === "x" && choices.classList.contains("o")) {
     choices.classList.remove("o");
   }
-
   closeModal();
   playing = true;
   //* 2 */
-  cellsValueArray = makeArray(cells);
-  cellsValueArray.forEach((el) => {
-    if (!document.getElementById(`${el}`).classList.contains("active")) {
-      document.getElementById(`${el}`).disabled = false;
-    }
-  });
-  cells.forEach((cell) => {
-    // if (cell !== document.getElementById(`${index}`)) {
-    //   cell.disabled = false;
-    // }
-    cell.addEventListener("mouseover", mOverCell);
-    cell.addEventListener("mouseout", mOutCell);
-    cell.addEventListener("click", playerClicksCell);
-  });
-}
-
-//***************************************************************//
-function playerClicksCell(e) {
-  e.preventDefault();
-
-  index = Number(e.currentTarget.id);
-  console.log(index);
-
-  cellsValueArray.splice(cellsValueArray.indexOf(index), 1);
-  if (e.currentTarget.classList.contains("preview"));
-  {
-    e.currentTarget.classList.remove("preview");
-  }
-
-  e.currentTarget.classList.add("active");
-  if (player === "x") {
-    currentScorePlayerX = currentScorePlayerX + 1;
-  } else if (player === "o") {
-    currentScorePlayerO = currentScorePlayerO + 1;
-  }
-  document.getElementById(index).disabled = true;
-  choices.classList.remove(`${player}`);
-  checkWinner();
-  console.log(playing);
-  if (cellsValueArray.length === 0 && playing === true) {
-    checkGameOverTies();
-  }
-  switchPlayer();
-  console.log(cellsValueArray);
-}
-//***************************************************************//
-
-//***************************************************************//
-
-function openNewGameCpu(e) {
-  console.log(whoseTurn);
-  cancelChanges();
-  game1 = true;
-  boxTurn.textContent = `X TURN`;
-  if (activePlayer === "x") {
-    document.querySelector(".you-top").textContent = "X (YOU)";
-    document.querySelector(".cpu-top").textContent = "O (CPU)";
-  } else {
-    document.querySelector(".you-top").textContent = "O (YOU)";
-    document.querySelector(".cpu-top").textContent = "X (CPU)";
-  }
-  //* 1 */
-
-  console.log(activePlayer, cpuPlayer);
-  if (!menu.classList.contains("hidden")) {
-    menu.classList.add("hidden");
-  }
-  if (activeGame.classList.contains("hidden")) {
-    activeGame.classList.remove("hidden");
-  }
-  counterPlayer = 0;
-  counterOponent = 0;
-  winnerCounter = 0;
-  removeActive();
-  removeWinner();
-  if (!choices.classList.contains(`${activePlayer}`)) {
-    choices.classList.add(`${activePlayer}`);
-  }
-  closeModal();
-  playing = true;
-  //* 2 */
-  cellsValueArray = makeArray(cells);
-  arrCpuRandom1 = [1, 3, 7, 9];
-  arrCpuRandom2 = [2, 4, 5, 6];
-
-  if (whoseTurn === 1) {
-    cells.forEach((cell) => {
-      cell.disabled = true;
-    });
-    setTimeout(moveCpu, 2000);
-  } else if (whoseTurn === 0) {
+  if (playing) {
+    cellsValueArray = makeArray(cells);
     cellsValueArray.forEach((el) => {
       if (!document.getElementById(`${el}`).classList.contains("active")) {
         document.getElementById(`${el}`).disabled = false;
       }
     });
     cells.forEach((cell) => {
-      // if (cell !== document.getElementById(`${index}`)) {
-      //   cell.disabled = false;
-      // }
       cell.addEventListener("mouseover", mOverCell);
       cell.addEventListener("mouseout", mOutCell);
-      cell.addEventListener("click", mClickCell);
+      cell.addEventListener("click", playerClicksCell);
     });
   }
-  console.log(cellsValueArray);
 }
 //***************************************************************//
+
 function mClickCell(e) {
   e.preventDefault();
+  if (playing === true) {
+    index = Number(e.currentTarget.id);
+    cellsValueArray.forEach((el) => {
+      if (!document.getElementById(`${el}`).classList.contains("active")) {
+        document.getElementById(`${el}`).disabled = false;
+      }
+    });
 
-  index = Number(e.currentTarget.id);
-  cellsValueArray.forEach((el) => {
-    if (!document.getElementById(`${el}`).classList.contains("active")) {
-      document.getElementById(`${el}`).disabled = false;
+    cellsValueArray.splice(cellsValueArray.indexOf(index), 1);
+    document.getElementById(index).disabled = true;
+
+    if (e.currentTarget.classList.contains("preview"));
+    {
+      e.currentTarget.classList.remove("preview");
     }
-  });
-  cells.forEach((cell) => {
-    // if (cell !== document.getElementById(`${index}`)) {
-    //   cell.disabled = false;
-    // }
-  });
-  cellsValueArray.splice(cellsValueArray.indexOf(index), 1);
-  document.getElementById(index).disabled = true;
 
-  if (e.currentTarget.classList.contains("preview"));
-  {
-    e.currentTarget.classList.remove("preview");
-  }
+    e.currentTarget.classList.add("active");
+    counterPlayer = counterPlayer + 1;
+    choices.classList.remove(`${activePlayer}`);
+    checkGameOverActive();
 
-  e.currentTarget.classList.add("active");
-  counterPlayer = counterPlayer + 1;
-  choices.classList.remove(`${activePlayer}`);
-  checkGameOverActive();
-
-  cells.forEach((cell) => {
-    cell.disabled = true;
-  });
-  if (playing) {
+    cells.forEach((cell) => {
+      cell.disabled = true;
+    });
     if (
       (whoseTurn === 1 && counterOponent >= 2) ||
       (whoseTurn === 0 && counterOponent >= 1)
@@ -326,20 +286,21 @@ function mClickCell(e) {
         }
       }
     }
+
+    boxTurn.textContent = `${cpuPlayer} TURN`;
+
+    if (whoseTurn === 0) {
+      checkGameOverTies();
+    }
+
+    setTimeout(moveCpu, 2000);
+
+    console.log(cellsValueArray);
   }
-  boxTurn.textContent = `${cpuPlayer} TURN`;
-
-  if (whoseTurn === 0) {
-    checkGameOverTies();
-  }
-
-  setTimeout(moveCpu, 2000);
-
-  console.log(cellsValueArray);
 }
 //***************************************************************//
 function moveCpu() {
-  if (playing) {
+  if (playing === true) {
     if (whoseTurn === 1 && counterOponent < 2) {
       randomCell =
         arrCpuRandom1[Math.floor(Math.random() * arrCpuRandom1.length)];
@@ -372,8 +333,6 @@ function moveCpu() {
         console.log(randomCell);
         arrCpuRandom1.splice(arrCpuRandom1.indexOf(randomCell), 1);
       }
-
-      // arrCpuRandom1.splice(arrCpuRandom1.indexOf(randomCell), 1);
       if (!cellsValueArray.includes(randomCell)) {
         let random;
         for (let i = 0; i < arrCpuRandom1.length; i++) {
@@ -392,50 +351,46 @@ function moveCpu() {
         }
       }
     }
-  }
-  console.log(randomCell);
-  console.log(arrCpuRandom1, arrCpuRandom2);
-  index = randomCell;
-  if (randomCell) {
-    if (choices.classList.contains(`${activePlayer}`)) {
-      choices.classList.remove(`${activePlayer}`);
-    }
-    choices.classList.add(`${cpuPlayer}`);
-    document.getElementById(`${randomCell}`).classList.remove("empty");
-    document.getElementById(`${randomCell}`).classList.add("active");
-    document.getElementById(`${randomCell}`).classList.add(`${cpuPlayer}`);
-    counterOponent = counterOponent + 1;
 
     console.log(randomCell);
-    cellsValueArray.splice(cellsValueArray.indexOf(randomCell), 1);
+    console.log(arrCpuRandom1, arrCpuRandom2);
+    index = randomCell;
+    if (randomCell) {
+      if (choices.classList.contains(`${activePlayer}`)) {
+        choices.classList.remove(`${activePlayer}`);
+      }
+      choices.classList.add(`${cpuPlayer}`);
+      document.getElementById(`${randomCell}`).classList.remove("empty");
+      document.getElementById(`${randomCell}`).classList.add("active");
+      document.getElementById(`${randomCell}`).classList.add(`${cpuPlayer}`);
+      counterOponent = counterOponent + 1;
 
-    choices.classList.remove(`${cpuPlayer}`);
-    choices.classList.add(`${activePlayer}`);
+      console.log(randomCell);
+      cellsValueArray.splice(cellsValueArray.indexOf(randomCell), 1);
 
-    boxTurn.textContent = `${activePlayer} TURN`;
-    checkGameOverCPU();
-  }
-  if (whoseTurn === 1) {
-    checkGameOverTies();
-  }
-  cellsValueArray.forEach((el) => {
-    if (!document.getElementById(`${el}`).classList.contains("active")) {
-      document.getElementById(`${el}`).disabled = false;
+      choices.classList.remove(`${cpuPlayer}`);
+      choices.classList.add(`${activePlayer}`);
+
+      boxTurn.textContent = `${activePlayer} TURN`;
+      checkGameOverCPU();
     }
-  });
-  if (playing) {
-    cells.forEach((cell) => {
-      // if (cell !== document.getElementById(`${index}`)) {
-      //   cell.disabled = false;
-      // }
+    if (whoseTurn === 1) {
+      checkGameOverTies();
+    }
+    cellsValueArray.forEach((el) => {
+      if (!document.getElementById(`${el}`).classList.contains("active")) {
+        document.getElementById(`${el}`).disabled = false;
+      }
+    });
 
+    cells.forEach((cell) => {
       cell.addEventListener("mouseover", mOverCell);
       cell.addEventListener("mouseout", mOutCell);
       cell.addEventListener("click", mClickCell);
     });
-  }
 
-  console.log(cellsValueArray);
+    console.log(cellsValueArray);
+  }
 }
 //***************************************************************//
 function mOverCell(e) {
@@ -678,7 +633,6 @@ function blockOponent() {
 }
 
 //************************** MODAL WINDOW **********************//
-
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -694,7 +648,6 @@ const closeModal = function () {
   modal.classList.add("hidden");
   overlay.classList.add("hidden");
 };
-btnRestart.addEventListener("click", cancelContinue);
 
 btnCloseModal.addEventListener("click", closeModal); //close modal window
 overlay.addEventListener("click", closeModal); //close modal window
@@ -703,8 +656,9 @@ document.addEventListener("keydown", function (e) {
     closeModal();
   }
 }); //Close modal window by pressing Esc key
-
+btnRestart.addEventListener("click", cancelContinue);
 function cancelContinue() {
+  playing = false;
   openModal();
   document.querySelector(".modal-messages").textContent = "";
 
@@ -718,8 +672,19 @@ function cancelContinue() {
   } else if (game2) {
     next.addEventListener("click", openNewGamePlayer);
   }
+  console.log(playing);
 }
+//*********************************************************************//
+function cancelChanges() {
+  playing = true;
+  closeModal();
 
+  cancel.style.display = "none";
+  quit.style.display = "inline-block";
+  next.textContent = "next round";
+  moveCpu();
+  console.log(playing);
+}
 //************************  HELPER FUNCTIONS ***************************//
 function containsDuplicates(array) {
   if (array.length !== new Set(array).size) {
@@ -780,11 +745,4 @@ function removeActive() {
       cell.classList.remove("x");
     }
   });
-}
-//********************//
-function cancelChanges() {
-  closeModal();
-  cancel.style.display = "none";
-  quit.style.display = "inline-block";
-  next.textContent = "next round";
 }
