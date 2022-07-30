@@ -68,6 +68,7 @@ let currentScorePlayerO;
 let currentScorePlayerX;
 choiceX.addEventListener("click", playerX);
 choiceO.addEventListener("click", playerO);
+quit.addEventListener("click", again);
 function init() {
   playing = false;
   game1 = false;
@@ -787,4 +788,21 @@ function cancelChanges() {
   cancel.style.display = "none";
   quit.style.display = "inline-block";
   next.textContent = "next round";
+}
+//********************//
+function again(e) {
+  e.preventDefault();
+  init();
+
+  // choiceX.addEventListener("click", playerX);
+  // choiceO.addEventListener("click", playerO);
+  removeActive();
+  removeWinner();
+  closeModal();
+  if (menu.classList.contains("hidden")) {
+    menu.classList.remove("hidden");
+  }
+  if (!activeGame.classList.contains("hidden")) {
+    activeGame.classList.add("hidden");
+  }
 }
