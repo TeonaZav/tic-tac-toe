@@ -64,10 +64,10 @@ const rangeArray = [
 ];
 let arrCpuRandom1, arrCpuRandom2;
 //***************************************************************//
-
+choiceX.addEventListener("click", playerX);
+choiceO.addEventListener("click", playerO);
 function init() {
-  choiceX.addEventListener("click", playerX);
-  choiceO.addEventListener("click", playerO);
+  quit.addEventListener("click", again);
   playing = false;
   game1 = false;
   game2 = false;
@@ -172,6 +172,9 @@ function openNewGameCpu(e) {
           document.getElementById(`${el}`).disabled = false;
         }
       });
+      if (choices.classList.contains("o")) {
+        choices.classList.remove("o");
+      }
       cells.forEach((cell) => {
         cell.addEventListener("mouseover", mOverCell);
         cell.addEventListener("mouseout", mOutCell);
@@ -393,6 +396,35 @@ function moveCpu() {
   }
 }
 //***************************************************************//
+function playerClicksCell(e) {
+  e.preventDefault();
+
+  index = Number(e.currentTarget.id);
+  console.log(index);
+
+  cellsValueArray.splice(cellsValueArray.indexOf(index), 1);
+  if (e.currentTarget.classList.contains("preview"));
+  {
+    e.currentTarget.classList.remove("preview");
+  }
+
+  e.currentTarget.classList.add("active");
+  if (player === "x") {
+    currentScorePlayerX = currentScorePlayerX + 1;
+  } else if (player === "o") {
+    currentScorePlayerO = currentScorePlayerO + 1;
+  }
+  document.getElementById(index).disabled = true;
+  choices.classList.remove(`${player}`);
+  checkWinner();
+  console.log(playing);
+  if (cellsValueArray.length === 0 && playing === true) {
+    checkGameOverTies();
+  }
+  switchPlayer();
+  console.log(cellsValueArray);
+}
+//***************************************************************//
 function mOverCell(e) {
   e.preventDefault();
   if (choices.classList.contains("x") || choices.classList.contains("o")) {
@@ -580,6 +612,7 @@ function probableWinner() {
             empty = rangeArray[i].filter((el) => {
               return el.classList.contains("empty");
             });
+            console.log(id);
             id = empty[0].id;
             console.log(id);
             return id;
@@ -745,4 +778,21 @@ function removeActive() {
       cell.classList.remove("x");
     }
   });
+}
+//********************//
+function again(e) {
+  e.preventDefault();
+  init();
+
+  // choiceX.addEventListener("click", playerX);
+  // choiceO.addEventListener("click", playerO);
+  removeActive();
+  removeWinner();
+  closeModal();
+  if (menu.classList.contains("hidden")) {
+    menu.classList.remove("hidden");
+  }
+  if (!activeGame.classList.contains("hidden")) {
+    activeGame.classList.add("hidden");
+  }
 }
