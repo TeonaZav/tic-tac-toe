@@ -25,7 +25,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: https://tic-tac-toe-t.netlify.app/
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: https://teonazav.github.io/tic-tac-toe/
 
 ## My process
 
