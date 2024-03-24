@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', function() {
 "use strict";
 
 const select = (selector) => document.querySelector(selector);
@@ -285,15 +286,11 @@ function onDelete() {
 }
 
 function onSaveProgress() {
-  const savedScores = getSavedScores();
-  console.log(savedScores);
-
-  if (savedScores) {
     progressState.wins += gameState.totalScore.you;
     progressState.losses += gameState.totalScore.oponent;
     progressState.ties += gameState.totalScore.ties;
-  }
-  
+console.log(progressState);
+
   localStorage.setItem("scores", JSON.stringify(progressState));
   resetGame();
   openMenu();
@@ -354,15 +351,13 @@ function cpuMoves() {
     removeUsedCell(elToRemove);
     checkGameState();
   }
-  console.log("Here i am");
 
   if (gameState.playing) togglePlayer();
-  console.log("toggled", gameState.currentPlayer);
+  
 }
 
 function cpuChosesIndex() {
   if (gameState.remainingCells.length === 1) {
-    console.log(+gameState.remainingCells[0].id);
     return +gameState.remainingCells[0].id;
   }
   //if cpu's move is first in game
@@ -580,3 +575,4 @@ function adjustDisplaySettings(elementsToHide, elementsToShow) {
     if (elements[element]) elements[element].style.display = "inline-block";
   });
 }
+});
