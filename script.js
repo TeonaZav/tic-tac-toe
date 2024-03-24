@@ -326,6 +326,7 @@ function onRestart() {
 
 function onCancel() {
   closeModal();
+  clearTimeout(cpuMoveTimeout);
   gameState.playing = true;
 
   if (gameState.gameMode === "CPU" && gameState.playing) {
