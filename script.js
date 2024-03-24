@@ -413,7 +413,7 @@ function cpuShouldMove() {
   if (timeToMove) {
     select("#turn").style.visibility = "visible";
     disableCells();
-    cpuMoveTimeout = setTimeout(cpuMoves, 2000);
+    cpuMoveTimeout = setTimeout(cpuMoves, 3000);
   } else {
     select("#turn").style.visibility = "hidden";
     anableCells();
