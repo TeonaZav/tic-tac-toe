@@ -45,6 +45,10 @@ const rangeArray = [
   [2, 4, 6],
 ];
 
+
+let cpuMoveTimeout;
+
+
 //modal state
 let modalState = {
   message: "",
@@ -301,6 +305,7 @@ console.log(progressState);
 function onStop() {
   getModalContent(gameState.winner, gameState.tied, "restart");
   gameState.playing = false;
+   clearTimeout(cpuMoveTimeout); 
   openModal();
 }
 
@@ -401,16 +406,18 @@ function cpuChosesIndex() {
 }
 
 function cpuShouldMove() {
+
   const timeToMove =
     gameState.currentPlayer === gameState.oponent && !gameState.winner;
   if (timeToMove) {
     select("#turn").style.visibility = "visible";
     disableCells();
-    setTimeout(cpuMoves, 3000);
+    cpuMoveTimeout = setTimeout(cpuMoves, 2000);
   } else {
     select("#turn").style.visibility = "hidden";
     anableCells();
   }
+ 
   return timeToMove;
 }
 
