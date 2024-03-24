@@ -59,6 +59,7 @@ let progressState = {
 
 //localstorage data
 const savedScores = getSavedScores() || { wins: 0, losses: 0, ties: 0 };
+console.log(savedScores);
 
 if (savedScores) {
   progressState.wins = savedScores.wins;
@@ -291,8 +292,9 @@ function onSaveProgress() {
     progressState.wins += gameState.totalScore.you;
     progressState.losses += gameState.totalScore.oponent;
     progressState.ties += gameState.totalScore.ties;
-    localStorage.setItem("scores", JSON.stringify(progressState));
   }
+  
+  localStorage.setItem("scores", JSON.stringify(progressState));
   resetGame();
   openMenu();
   updateUI();
@@ -323,7 +325,7 @@ function onRestart() {
 function onCancel() {
   closeModal();
   gameState.playing = true;
-  
+
   if (gameState.gameMode === "CPU" && gameState.playing) {
     cpuShouldMove();
   }
