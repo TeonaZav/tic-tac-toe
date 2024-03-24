@@ -23,9 +23,7 @@ Users should be able to:
 - **Bonus 2**: Instead of having the computer randomly make their moves, try making it clever so it’s proactive in blocking your moves and trying to win
 
 ### Links
-
-- Solution URL: https://tic-tac-toe-t.netlify.app/
-- Live Site URL: https://teonazav.github.io/tic-tac-toe/
+- Live URL: https://teonazav.github.io/tic-tac-toe/
 
 ## My process
 

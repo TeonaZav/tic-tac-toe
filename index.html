@@ -12,7 +12,10 @@
     />
 
     <title>Frontend Mentor | Tic Tac Toe</title>
-    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script
+      nomodule=""
+      src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.js"
+    ></script>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="menu.css" />
     <link rel="stylesheet" href="board.css" />
@@ -81,6 +84,12 @@
       <!-- New game menu end -->
       <!-- Game board start -->
       <div class="game-board-container hidden">
+        <div class="progress-ct">
+          <p id="wins">Wins: <span>0</span></p>
+          <p id="losses">Losses: <span>0</span></p>
+          <p id="tie">Ties: <span>0</span></p>
+        </div>
+        <p id="turn">CPU turn...</p>
         <div class="board-header">
           <div class="header-icon-container">
             <img src="assets/icon-x.svg" alt="icon x" class="icon" />
@@ -92,63 +101,64 @@
           </button>
         </div>
         <div class="game-board">
+          <div class="board-overlay"></div>
+          <button
+            type="button"
+            id="0"
+            class="board-cell r1cell1 empty"
+            data-value="0"
+          ></button>
           <button
             type="button"
             id="1"
-            class="board-cell r1cell1 empty"
+            class="board-cell r1cell2 empty"
             data-value="1"
           ></button>
           <button
             type="button"
             id="2"
-            class="board-cell r1cell2 empty"
+            class="board-cell r1cell3 empty"
             data-value="2"
           ></button>
           <button
             type="button"
             id="3"
-            class="board-cell r1cell3 empty"
+            class="board-cell r2cell1 empty"
             data-value="3"
           ></button>
           <button
             type="button"
             id="4"
-            class="board-cell r2cell1 empty"
+            class="board-cell r2cell2 empty"
             data-value="4"
           ></button>
           <button
             type="button"
             id="5"
-            class="board-cell r2cell2 empty"
+            class="board-cell r2cell3 empty"
             data-value="5"
           ></button>
           <button
             type="button"
             id="6"
-            class="board-cell r2cell3 empty"
+            class="board-cell r3cell1 empty"
             data-value="6"
           ></button>
           <button
             type="button"
             id="7"
-            class="board-cell r3cell1 empty"
+            class="board-cell r3cell2 empty"
             data-value="7"
           ></button>
           <button
             type="button"
             id="8"
-            class="board-cell r3cell2 empty"
-            data-value="8"
-          ></button>
-          <button
-            type="button"
-            id="9"
             class="board-cell r3cell3 empty"
-            data-value="9"
+            data-value="8"
           ></button>
         </div>
         <div class="scores">
-          <div class="display score you">
+          <div class="display score you x">
             <span class="you-top"> you</span>
             <span class="t-score t-score-you">0</span>
           </div>
@@ -156,7 +166,7 @@
             <span class="ties-top">ties</span>
             <span class="t-score t-score-ties">0</span>
           </div>
-          <div class="display score cpu">
+          <div class="display score cpu o">
             <span class="cpu-top">cpu</span>
             <span class="t-score t-score-cpu">0</span>
           </div>
@@ -164,19 +174,16 @@
         <div class="modal hidden">
           <!-- <button class="btn--close-modal">&times;</button> -->
           <h3 class="modal-messages">Oh no, you lost</h3>
-          <h2 class="modal-heading">takes the round</h2>
+          <h2 class="modal-heading"></h2>
           <div class="modal-cta">
-            <a>
-              <button class="btn btn-modal btn-silver quit">quit</button>
-              <button class="btn btn-modal btn-silver cancel">
-                NO, CANCEL
-              </button>
-            </a>
-            <a
-              ><button class="btn btn-modal btn-yellow next">
-                next round
-              </button></a
-            >
+            <button class="btn btn-modal btn-silver quit">quit</button>
+            <button class="btn btn-modal btn-silver cancel">NO, CANCEL</button>
+            <button class="btn btn-modal btn-yellow next">NEXT ROUND</button>
+            <button class="btn btn-modal btn-yellow restart">
+              "YES, RESTART"
+            </button>
+            <button class="btn btn-modal btn-silver delete">DELETE</button>
+            <button class="btn btn-modal btn-yellow save">SAVE SCORES</button>
           </div>
         </div>
       </div>

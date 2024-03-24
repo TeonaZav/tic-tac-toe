@@ -1,6 +1,33 @@
 .game-board-container {
   padding: 0 2.3rem 12.7rem 2.4rem;
 }
+.progress-ct {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.4rem;
+  p {
+    font-size: 2rem;
+    background-color: #2f444d;
+    width: 12rem;
+    border-radius: 0.5rem;
+    text-align: left;
+    padding: 1rem;
+    span {
+      color: #f8e0b4;
+    }
+  }
+  .wins {
+    color: #51bdba;
+  }
+  .losses {
+    color: #784239;
+  }
+  .tie {
+    color: #a8bfc9;
+  }
+}
+
 .board-header {
   display: flex;
   justify-content: flex-start;
@@ -12,6 +39,7 @@
   display: flex;
   margin-right: 4.6rem;
 }
+
 .turn-display {
   width: 9.6rem;
   height: 4rem;
@@ -24,6 +52,7 @@
   letter-spacing: 0.875px;
   margin-right: 7.4rem;
 }
+
 .restart-btn {
   background-color: #a8bfc9;
   width: 4rem;
@@ -41,7 +70,31 @@
   row-gap: 2rem;
   column-gap: 2rem;
   margin-bottom: 2rem;
+  position: relative;
 }
+
+.board-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.041);
+  z-index: 150;
+  border-radius: 0.5rem;
+  display: none;
+}
+#turn {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translateX(-50%);
+  color: #f2b137;
+  font-size: 2.4rem;
+  letter-spacing: 1rem;
+  z-index: 100;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
 .board-cell {
   width: 9.6rem;
   height: 9.6rem;
@@ -65,6 +118,7 @@
   background-repeat: no-repeat;
   background-position: 50%;
   background-color: #1f3641;
+  color: transparent;
   transition: background-size 0.2s ease-out, opacity 0.2s ease-out;
   border-radius: 15px;
   box-shadow: inset 0 -8px 0 #10212a;
@@ -72,27 +126,28 @@
 }
 
 .board-cell.active.o {
-  background: url(assets/icon-o.svg) no-repeat 50% #1f3641;
+  background: url("assets/icon-o.svg") no-repeat 50% #1f3641;
 }
 .board-cell.active.x {
-  background: url(assets/icon-x.svg) no-repeat 50% #1f3641;
+  background: url("assets/icon-x.svg") no-repeat 50% #1f3641;
 }
 .board-cell.preview.o {
-  background: url(assets/icon-o-outline.svg) no-repeat 50% #1f3641;
+  background: url("assets/icon-o-outline.svg") no-repeat 50% #1f3641;
 }
 .board-cell.preview.x {
-  background: url(assets/icon-x-outline.svg) no-repeat 50% #1f3641;
+  background: url("assets/icon-x-outline.svg") no-repeat 50% #1f3641;
 }
 
 .board-cell.active.x {
-  background: url(assets/icon-x.svg) no-repeat 50% #1f3641;
+  background: url("assets/icon-x.svg") no-repeat 50% #1f3641;
 }
 .board-cell.winner.x {
-  background: url(assets/icon-x-dark.svg) no-repeat 50% #31c3bd;
+  background: url("assets/icon-x-dark.svg") no-repeat 50% #31c3bd;
 }
 .board-cell.winner.o {
-  background: url(assets/icon-o-dark.svg) no-repeat 50% #f2b137;
+  background: url("assets/icon-o-dark.svg") no-repeat 50% #f2b137;
 }
+
 .scores {
   display: flex;
   flex-direction: row;
@@ -111,13 +166,24 @@
   display: flex;
   flex-direction: column;
 }
-.you {
+
+.you.x {
   background-color: #31c3bd;
 }
+
+.you.o {
+  background-color: #f2b137;
+}
+
 .ties {
   background-color: #a8bfc9;
 }
-.cpu {
+
+.cpu.x {
+  background-color: #31c3bd;
+}
+
+.cpu.o {
   background-color: #f2b137;
 }
 
@@ -210,6 +276,7 @@
   display: none;
   width: 13.9rem;
 }
+
 .btn-modal.btn-yellow {
   width: 14.6rem;
   height: 5.2rem;

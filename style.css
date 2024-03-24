@@ -41,10 +41,7 @@ body {
   border: none;
   text-decoration: none;
 }
-.btn:active,
-.btn:visited {
-  text-decoration: none;
-}
+
 .btn-large {
   width: 32.7rem;
   height: 5.6rem;
@@ -89,6 +86,7 @@ body {
   font-weight: 700;
   border: none;
 }
+
 .overlay {
   position: fixed;
   top: 0;
@@ -100,6 +98,7 @@ body {
   z-index: 100;
   transition: all 0.5s;
 }
+
 .hidden {
   visibility: hidden;
   transition-property: opacity;
@@ -108,7 +107,8 @@ body {
   opacity: 0;
 }
 
-/* more than 768PX (for tablet )*/
+
+
 @media (min-width: 48em) {
   .btn-large {
     width: 46rem;

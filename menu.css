@@ -1,4 +1,3 @@
-/************** game menu ************/
 .game-menu {
   width: 37.5rem;
   display: flex;
@@ -94,6 +93,7 @@
 }
 .icon-o-after {
   opacity: 1;
+  transition: opacity 0.2s ease-in-out;
 }
 .icon-x-before {
   opacity: 1;
@@ -131,7 +131,8 @@
   align-items: center;
   gap: 1.6rem;
 }
-/* more than 768PX (for tablet )*/
+
+
 @media (min-width: 48em) {
   .game-menu {
     width: 76.8rem;
@@ -161,7 +162,7 @@
   }
 }
 
-/* more than 1440PX (for desktop )*/
+
 @media (min-width: 90em) {
   .game-menu {
     min-width: 144rem;
